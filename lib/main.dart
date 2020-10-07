@@ -86,17 +86,22 @@ class GeneralLayout extends StatelessWidget {
   }
 }
 
-class Page extends StatelessWidget {
+class Page extends StatefulWidget {
   final EventStatus eventStatus;
 
   const Page(this.eventStatus);
+
+  @override
+  _PageState createState() => _PageState();
+}
+class _PageState extends  State<Page>{
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Column(
-            children: EventController.getEventList(eventStatus).map((event) {
+            children: EventController.getEventList(widget.eventStatus).map((event) {
           return EventBox(event);
         }).toList())
       ],
