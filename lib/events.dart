@@ -11,7 +11,7 @@ class Event {
 }
 
 class EventController{
-  static List<Event> _eventList = [Event(-1,'Do shopping', EventStatus.incompleted), Event(-2,'Complete the exercises', EventStatus.incompleted),Event(-3,'Finish homework', EventStatus.completed), Event(-4,'Decide on the movie with John', EventStatus.failed), Event(-5,'Cook popcorn for the movie night', EventStatus.canceled)];
+  static List<Event> _eventList = [Event(-1,'Do shopping', EventStatus.incompleted), Event(-2,'Complete the exercises', EventStatus.incompleted),Event(-3,'Finish homework', EventStatus.completed), Event(-4,'Decide on the movie with John', EventStatus.failed), Event(-5,'Cook popcorns for the movie night', EventStatus.canceled)];
   static void addEvent(String message){
     _eventList.add(Event(lastId, message, EventStatus.incompleted));
     lastId++;
@@ -23,6 +23,7 @@ class EventController{
   }
 
   static void deleteEvent(int id){
+    _eventList = _eventList.where((element) => element.id != id).toList();
 
   }
 }
