@@ -98,25 +98,43 @@ class _PageState extends  State<Page>{
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Column(
-            children: EventController.getEventList(widget.eventStatus).map((event) {
-          return EventBox(event);
-        }).toList())
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: FlatButton(
+              child: Text('add event'),
+              onPressed: (){
+                setState(() {
+                  EventController.addEvent('message');
+                });
+              },
+            ),
+          ),
+          Column(
+              children: EventController.getEventList(widget.eventStatus).map((event) {
+            return EventBox(event);
+          }).toList())
+        ],
+      ),
     );
   }
 }
 
-class EventBox extends StatelessWidget {
+class EventBox extends StatefulWidget {
   final Event event;
-  EventBox(this.event);
 
+  EventBox(this.event);
+  @override
+  _EventBoxState createState() => _EventBoxState();
+
+}
+
+class _EventBoxState extends State<EventBox>{
   @override
   Widget build(BuildContext context) {
     Color _color;
-    switch (event.status) {
+    switch (widget.event.status) {
       case EventStatus.incompleted:
         {
           _color = Colors.blue;
@@ -129,7 +147,7 @@ class EventBox extends StatelessWidget {
         break;
       case EventStatus.failed:
         {
-          _color = Colors.red;
+          _color = Colors.redAccent;
         }
         break;
       case EventStatus.canceled:
@@ -139,11 +157,12 @@ class EventBox extends StatelessWidget {
         break;
     }
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       child: Container(
+
         child: Row(
           children: <Widget>[
-            Expanded(child: Text(event.message)),
+            Expanded(child: Text(widget.event.message)),
             DropdownButton(
               items: [],
             ),
@@ -151,9 +170,17 @@ class EventBox extends StatelessWidget {
               Icons.flag,
               color: _color,
             ),
-            Icon(
-              Icons.delete,
-              color: Colors.grey,
+            GestureDetector(
+              onTap: (){
+                print('hello');
+
+                  EventController.deleteEvent(widget.event.id);
+                setState(() {});
+              },
+              child: Icon(
+                Icons.delete,
+                color: Colors.grey,
+              ),
             )
           ],
         ),

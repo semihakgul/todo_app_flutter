@@ -2,18 +2,19 @@
 import 'package:flutter/cupertino.dart';
 
 enum EventStatus { all, incompleted, completed, failed, canceled }
-
+int lastId=0;
 class Event {
-
+  int id;
   EventStatus status;
   String message;
-  Event( this.message, this.status,);
+  Event(this.id, this.message, this.status,);
 }
 
 class EventController{
-  static List<Event> _eventList = [Event('Do shopping', EventStatus.incompleted), Event('Complete the exercises', EventStatus.incompleted),Event('Finish homework', EventStatus.completed), Event('Decide on the movie with John', EventStatus.failed), Event('Cook popcorns for the movie night', EventStatus.canceled)];
-  void addEvent(String message){
-    _eventList.add(Event(message, EventStatus.incompleted));
+  static List<Event> _eventList = [Event(-1,'Do shopping', EventStatus.incompleted), Event(-2,'Complete the exercises', EventStatus.incompleted),Event(-3,'Finish homework', EventStatus.completed), Event(-4,'Decide on the movie with John', EventStatus.failed), Event(-5,'Cook popcorn for the movie night', EventStatus.canceled)];
+  static void addEvent(String message){
+    _eventList.add(Event(lastId, message, EventStatus.incompleted));
+    lastId++;
   }
 
   static List<Event> getEventList(EventStatus eventStatus){
@@ -21,4 +22,7 @@ class EventController{
     return _eventList.where((element) => element.status == eventStatus).toList();
   }
 
+  static void deleteEvent(int id){
+
+  }
 }
